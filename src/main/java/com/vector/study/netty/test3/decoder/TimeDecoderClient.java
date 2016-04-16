@@ -1,4 +1,4 @@
-package com.vector.study.netty.test3.pojo;
+package com.vector.study.netty.test3.decoder;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -13,7 +13,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  * author: vector.huang
  * date：2016/4/16 13:18
  */
-public class CacheBufClient {
+public class TimeDecoderClient {
 
     /**
      * 编写服务端和客户端最大的并且唯一不同的使用了不同的BootStrap 和 Channel的实现。
@@ -33,7 +33,13 @@ public class CacheBufClient {
             boot.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
-                    ch.pipeline().addLast(new CacheBufClientHandler());
+
+                    /**
+                     * 添加两个handler
+                     */
+
+                    ch.pipeline().addLast(new TimeDecoderClientHandler());
+                    ch.pipeline().addLast(new TimeClientHandler());
                 }
             });
 
@@ -50,7 +56,7 @@ public class CacheBufClient {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new CacheBufClient().run("127.0.0.1",8080);
+        new TimeDecoderClient().run("127.0.0.1",8080);
     }
 
 }

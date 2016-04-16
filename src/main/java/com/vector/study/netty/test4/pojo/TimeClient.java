@@ -1,4 +1,8 @@
-package com.vector.study.netty.test3.pojo;
+package com.vector.study.netty.test4.pojo;
+
+import com.vector.study.netty.test3.decoder.*;
+import com.vector.study.netty.test3.decoder.TimeDecoderClientHandler;
+import com.vector.study.netty.test4.pojo.handler.TimePOJOClientHandler;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -11,15 +15,10 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 /**
  * author: vector.huang
- * date：2016/4/16 13:18
+ * date：2016/4/16 18:21
  */
-public class TimeDecoderClient {
-
-    /**
-     * 编写服务端和客户端最大的并且唯一不同的使用了不同的BootStrap 和 Channel的实现。
-     */
-
-    public void run(String host,int port) throws InterruptedException {
+public class TimeClient {
+    public void run(String host, int port) throws InterruptedException {
 
         EventLoopGroup worker = new NioEventLoopGroup();
 
@@ -33,30 +32,24 @@ public class TimeDecoderClient {
             boot.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel ch) throws Exception {
-
-                    /**
-                     * 添加两个handler
-                     */
-
                     ch.pipeline().addLast(new TimeDecoderClientHandler());
-                    ch.pipeline().addLast(new TimeClientHandler());
+                    ch.pipeline().addLast(new TimePOJOClientHandler());
                 }
             });
 
-            boot.option(ChannelOption.SO_KEEPALIVE,true);
+            boot.option(ChannelOption.SO_KEEPALIVE, true);
 
-            ChannelFuture f = boot.connect(host,port).sync();
+            ChannelFuture f = boot.connect(host, port).sync();
 
             f.channel().closeFuture().sync();
 
-        }finally {
+        } finally {
             worker.shutdownGracefully();
         }
 
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new TimeDecoderClient().run("127.0.0.1",8080);
+        new TimeDecoderClient().run("127.0.0.1", 8080);
     }
-
 }

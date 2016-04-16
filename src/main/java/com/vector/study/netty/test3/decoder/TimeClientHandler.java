@@ -1,4 +1,4 @@
-package com.vector.study.netty.test3.pojo;
+package com.vector.study.netty.test3.decoder;
 
 import java.text.SimpleDateFormat;
 
