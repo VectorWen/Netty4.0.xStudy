@@ -15,9 +15,17 @@ AB   CDE  FG  H   I
 
 ###Solution 1
 
+```java
+
 CacheBufClientHandler
+
+```
 
 ###Solution 2
 
+```java
+
 TimeDecoderClientHandler extends ByteToMessageDecoder
 TimeClientHandler extends ChannelInboundHandlerAdapter
+
+```
